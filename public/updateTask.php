@@ -13,7 +13,7 @@ if ($task == '' || $datetime == '' || $id == '') {
     if (iconv_strlen($task) > 255) {
         setcookie("typeNoty", "danger");
         setcookie("messageNoty", "Слишком длинное задание (>255 символов)");
-        header('Location: /');
+        header('Location: /ToDo');
         die();
     }
 
@@ -29,4 +29,4 @@ if ($task == '' || $datetime == '' || $id == '') {
     }
 
 }
-header('Location: /');
+header('Location: /ToDo');

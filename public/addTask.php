@@ -13,7 +13,7 @@ if ($task == '' || $_POST['deadline'] == '') {
     if (iconv_strlen($task) > 255) {
         setcookie("typeNoty", "danger");
         setcookie("messageNoty", "Слишком длинное задание (>255 символов)");
-        header('Location: /');
+        header('Location: /ToDo');
         die();
     }
 
@@ -25,8 +25,8 @@ if ($task == '' || $_POST['deadline'] == '') {
         setcookie("messageNoty", "Такое задание уже существует");
     } else {
         setcookie("typeNoty", "success");
-        setcookie("messageNoty", iconv_strlen($task) > 255 . "Задание добавлено");
+        setcookie("messageNoty", "Задание добавлено");
     }
 
 }
-header('Location: /');
+header('Location: /ToDo');
