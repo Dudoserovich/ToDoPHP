@@ -9,12 +9,17 @@ $datetime = date("Y-m-d H:i:s", strtotime($_POST['datetime']));
 if ($task == '' || $datetime == '' || $id == '') {
     setcookie("typeNoty", "warning");
     setcookie("messageNoty", "Задайте все поля задачи");
-    header('Location: /');
 } else {
+    if (iconv_strlen($task) > 255) {
+        setcookie("typeNoty", "danger");
+        setcookie("messageNoty", "Слишком длинное задание (>255 символов)");
+        header('Location: /');
+        die();
+    }
+
     $Task = new Task($task, $datetime, (int)$id);
 
     // выдавать сообщение об ошибке, если слишком длинный таск
-    // ограничить ввод даты (нельзя ставить уже прошедшие дни)
     if ($Task->save()) {
         setcookie("typeNoty", "success");
         setcookie("messageNoty", "Задача обновлена");
@@ -23,5 +28,5 @@ if ($task == '' || $datetime == '' || $id == '') {
         setcookie("messageNoty", "Задача не была изменена");
     }
 
-    header('Location: /');
 }
+header('Location: /');

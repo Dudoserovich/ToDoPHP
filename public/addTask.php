@@ -8,18 +8,25 @@ $deadline = date("Y-m-d H:i:s", strtotime($_POST['deadline']));
 if ($task == '' || $_POST['deadline'] == '') {
     setcookie("typeNoty", "warning");
     setcookie("messageNoty", "Задайте все поля задачи");
-    header('Location: /');
 } else {
-    /*htmlspecialchars($task, ENT_QUOTES)*/
-    // выдавать сообщение об ошибке, если слишком длинный таск
-    // ограничить ввод даты (нельзя ставить уже прошедшие дни)
+
+    if (iconv_strlen($task) > 255) {
+        setcookie("typeNoty", "danger");
+        setcookie("messageNoty", "Слишком длинное задание (>255 символов)");
+        header('Location: /');
+        die();
+    }
+
     $Task = new Task($task, $deadline);
 
-    if($Task->add())
-        header('Location: /');
-    else {
+    if(!$Task->add())
+    {
         setcookie("typeNoty", "danger");
-        setcookie("messageNoty", "Такая запись уже существует");
-        header('Location: /');
+        setcookie("messageNoty", "Такое задание уже существует");
+    } else {
+        setcookie("typeNoty", "success");
+        setcookie("messageNoty", iconv_strlen($task) > 255 . "Задание добавлено");
     }
+
 }
+header('Location: /');
