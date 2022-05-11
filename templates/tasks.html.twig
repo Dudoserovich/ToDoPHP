@@ -1,0 +1,46 @@
+<div class="tasks" style="overflow-y: scroll; max-height: 75%;">
+    {% if tasks|length > 0 %}
+        {% for task in tasks %}
+        <div id="{{ task.id }}" class="mb-2 card task">
+            <div class="card-body">
+                <h5 class="card-title">{{ task.task }}</h5>
+                <h6 class="card-subtitle text-muted">Дедлайн: {{ task.datetime|date('d.m.Y H:i:s') }}</h6>
+                <div class="my-2">
+                    <button class="btn btn-success"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalAddTask"
+                            data-bs-task="{{ task.task }}"
+                            data-bs-deadline="{{ task.datetime|date('Y-m-d H:i:s') }}"
+                            data-bs-id="{{ task.id }}"
+                    >
+                        Редактировать
+                    </button>
+                    <label>
+                        <input type="text"
+                               name="id"
+                               class="form-control visually-hidden"
+                               value="{{ task.id }}"
+                        >
+                    </label>
+                    <form style="display: inline-block;" action="deleteTask.php" method="post">
+                        <button type="submit" class="btn btn-danger">Удалить</button>
+                        <label>
+                            <input type="text"
+                                   name="id"
+                                   class="form-control visually-hidden"
+                                   value="{{ task.id }}"
+                            >
+                        </label>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% include 'modalUpdateTask.html.twig' %}
+
+        <script src="static/modalUpdateTask.js"></script>
+    {% else %}
+        <p class="lead" style="font-size: 25px!important;">Ничегошеньки нет ещё</p>
+    {% endif %}
+</div>
