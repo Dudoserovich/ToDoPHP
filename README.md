@@ -45,13 +45,13 @@ sudo apt install php-pdo_mysql
 Создаём юзера
 ```mysql
 sudo mysql -uroot
-CREATE USER 'ToDoUser'@'194.67.74.23' IDENTIFIED BY 'ToDoPassword';
+CREATE USER 'ToDoUser'@'%' IDENTIFIED BY 'ToDoPassword';
 ```
 
 Выдаём права  
 // это права, стоит ещё почитать какие права есть
 ```mysql
-GRANT SELECT, INSERT, UPDATE, DELETE ON `ToDo`.* TO `ToDoUser`@`194.67.74.23`;
+GRANT SELECT, INSERT, UPDATE, DELETE ON `ToDo`.* TO `ToDoUser`@`%`;
 
 FLUSH PRIVILEGES;
 ```
